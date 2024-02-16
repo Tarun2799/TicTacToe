@@ -33,6 +33,7 @@ body{
     justify-content: center;
     align-items: center;
     position: relative;
+    cursor: pointer;
 }
 
 .cell:first-child,
@@ -57,27 +58,95 @@ body{
     border-bottom: none;
 }
 
+/* If cell has X or Circle class then we add CURSOR not-allowed */
+.cell.x,
+.cell.circle{
+    cursor: not-allowed;
+}
+
+
+/* We are adding the hover effect. In order to determine whose turn it is, we are going to apply a class to the board (x or circle) . Let's just start with an x: put this into board class div. So every time i hover the empty element/cell it should show me the (x/circle) respectively. so in order to that we need to add hover efffect to the cells. So, we have select our board when it has the x class and we want get the cells inside of that board and whenever we hover them we want to do something. We would do the same thing as we did in order to crate that X shape but just with with different color. we added this CSS to already declared css. So now, Whwnever we hover over acell when it's x's turn, we are going to apply this class to it*/
+
+/* It's going to do this over all of them but, we want to work the HOVER effect on the EMPTY cell. ESSENTIALLY, THAT CELL THAT DOESN'T HAVE THE X OR CIRCLE. This is where we use not selector , :not(x):not(circle)*/
+
+
+/* Let's change the background color of x*/
+
+.cell.x::before,
+.cell.x::after,
+.cell.circle::before{
+    background-color: #000;
+}
+
+
+.board.x .cell:not(.x):not(.circle):hover::before,
+.board.x .cell:not(.x):not(.circle):hover::after,
+.board.circle .cell:not(.x):not(.circle):hover::before{
+    background-color: lightgray;
+}
+
 
 /* If we directly write X in the div, this X depending on what font you use, and in ehich browser then we have to worry about font sizes, different browsers compatiblity . So, we just use simple CSS create the X shape for us. And we use the pseudo elements*/
 
 /* For this , i will add x class for X in different cell. And we add the content to EMPTY STRING, that way this before and after elements render, let's set width and height for that, we are going to  CALCULATE*/
 /* 1. */
 .cell.x::before,
-.cell.x::after{
+.cell.x::after,
+.board.x .cell:not(.x):not(.circle):hover::before,
+.board.x .cell:not(.x):not(.circle):hover::after{
     content: '';
     position: absolute;
     width: calc(var(--mark-size) * .15);
     height: var(--mark-size);
-    background-color: #000;
 }
 /* After we hit save nothing is happening yet  and main reason for this is that our cell is not actually displaying the content inside of it. Add in the .cell : display: flex, justify-content and alignitems to center. RN we are two l's in thr cell but we have to render X, let's transform 45 deg, before element and to after element element as well but oppposite direction*/
 
-.cell.x::before{
+
+/* here also, we are going to add hover effect CSS */
+.cell.x::before,
+.board.x .cell:not(.x):not(.circle):hover::before{
     transform: rotate(45deg);
 }
 
-.cell.x::after{
+/* here also, we are going to add hover effect CSS */
+.cell.x::after,
+.board.x .cell:not(.x):not(.circle):hover::after{
     transform: rotate(-45deg);
 }
 
 /* but they are not looking verygood, to fix this is easy let's do that. REASON IS: because they displayed next to each other on the document FLOW in POSITION STATIC, we aare going the change them to position absolute , by this they have the EXACT SAME BASE WHICH IS GOING TO BE PARENT(cell) and they won't overlap on tpof each other. Going to number 1. and adding position absolute and in the .cell : pos: relative, so that they won't go out of the cell*/
+
+
+
+
+
+
+/* We are going to do the similar thing for circle as well And also the hover effect as well*/
+
+.cell.circle::before,
+.cell.circle::after,
+.board.circle .cell:not(.x):not(.circle):hover::before,
+.board.circle .cell:not(.x):not(.circle):hover::after{
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+}
+
+/* After doing this we get a square. Now, we just have to separate them two circles */
+
+.cell.circle::before,
+.board.circle .cell:not(.x):not(.circle):hover::before
+{
+    width: var(--mark-size);
+    height: var(--mark-size);
+    /* background-color: #000 ; */
+}
+
+.cell.circle::after,
+.board.circle .cell:not(.x):not(.circle):hover::after
+{
+    width: calc(var(--mark-size)* (.7));
+    height: calc(var(--mark-size)* (.7));
+    background-color: #fff;
+}
+
