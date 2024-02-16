@@ -1,0 +1,83 @@
+*, *::after, *::before{
+    box-sizing: border-box;
+}
+
+:root{
+    --cell-size: 100px;
+    --mark-size: calc(var(--cell-size) * (.9));
+}
+
+body{
+    margin: 0;
+}
+
+.board{
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    /* these both content values center the .cell  */
+    justify-content: center; 
+    align-content: center;
+    /* these both items values center the .cell inside, this is going to align actual individual content things inside our cells, not the actual cell themselves.  */
+    justify-items: center;
+    align-items:  center;
+    grid-template-columns: repeat(3, auto);
+}
+
+.cell{
+    width: var(--cell-size);
+    height: var(--cell-size);
+    /* background-color: #000; */
+    border: 1px solid #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.cell:first-child,
+.cell:nth-child(2),
+.cell:nth-child(3){
+    border-top: none;
+}
+
+/* for left side */
+.cell:nth-child(3n + 1){
+    border-left: none;
+}
+
+/* for right side */
+.cell:nth-child(3n + 3){
+    border-right: none;
+}
+
+.cell:last-child,
+.cell:nth-child(7),
+.cell:nth-child(8){
+    border-bottom: none;
+}
+
+
+/* If we directly write X in the div, this X depending on what font you use, and in ehich browser then we have to worry about font sizes, different browsers compatiblity . So, we just use simple CSS create the X shape for us. And we use the pseudo elements*/
+
+/* For this , i will add x class for X in different cell. And we add the content to EMPTY STRING, that way this before and after elements render, let's set width and height for that, we are going to  CALCULATE*/
+/* 1. */
+.cell.x::before,
+.cell.x::after{
+    content: '';
+    position: absolute;
+    width: calc(var(--mark-size) * .15);
+    height: var(--mark-size);
+    background-color: #000;
+}
+/* After we hit save nothing is happening yet  and main reason for this is that our cell is not actually displaying the content inside of it. Add in the .cell : display: flex, justify-content and alignitems to center. RN we are two l's in thr cell but we have to render X, let's transform 45 deg, before element and to after element element as well but oppposite direction*/
+
+.cell.x::before{
+    transform: rotate(45deg);
+}
+
+.cell.x::after{
+    transform: rotate(-45deg);
+}
+
+/* but they are not looking verygood, to fix this is easy let's do that. REASON IS: because they displayed next to each other on the document FLOW in POSITION STATIC, we aare going the change them to position absolute , by this they have the EXACT SAME BASE WHICH IS GOING TO BE PARENT(cell) and they won't overlap on tpof each other. Going to number 1. and adding position absolute and in the .cell : pos: relative, so that they won't go out of the cell*/
