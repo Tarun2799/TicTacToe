@@ -10,10 +10,23 @@ const board = document.getElementById('board');
 
 let circleTurn; // 2. if circles turn it become true. So we can easily determine which class we are using by checking whose turn it is.Let's create some constant variable which is our X/Circle class.
 
-cellElements.forEach( cell => {
-    cell.addEventListener("click", handleClick, {once: true}) // means only fire eventListener once
-})
+// cellElements.forEach( cell => {
+//     cell.addEventListener("click", handleClick, {once: true}) // means only fire eventListener once
+// })
 
+// 13. 
+startGame()
+
+//12. our first instance is not setting board hover class(after refresh state). And inside of this func we want to add all of our cell elements from above and we also wat to set board hover class here. so let's call our dunction inside of this and we set circleturn to false. Just to start And mke sure we call this fun at the start of our script.
+function startGame(){
+
+    circleTurn = false;
+    cellElements.forEach( cell => {
+        cell.addEventListener("click", handleClick, {once: true}) // means only fire eventListener once
+    })
+
+    setBoardHoverCLass()
+}
 
 function handleClick(e){
     // console.log("clicked")
