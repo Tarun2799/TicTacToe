@@ -22,6 +22,15 @@ const cellElements = document.querySelectorAll('[data-cell]');
 //9. 
 const board = document.getElementById('board');
 
+const winningMessageElement = document.getElementById('winningMessage');
+const restartButton = document.getElementById('restartButton');
+//18. 
+const winningMessageTextElement = document.querySelector('[data-winning-message-text]');
+
+//25. 
+const resetButton = document.getElementById('resetButton');
+
+
 
 let circleTurn; // 2. if circles turn it become true. So we can easily determine which class we are using by checking whose turn it is.Let's create some constant variable which is our X/Circle class.
 
@@ -32,15 +41,25 @@ let circleTurn; // 2. if circles turn it become true. So we can easily determine
 // 13. 
 startGame()
 
+// 22.
+restartButton.addEventListener("click", startGame); 
+//it will not restart it , because our startgame function is reseting everything that has happened. And we have to unset everything up. Let's do this
+
 //12. our first instance is not setting board hover class(after refresh state). And inside of this func we want to add all of our cell elements from above and we also wat to set board hover class here. so let's call our dunction inside of this and we set circleturn to false. Just to start And mke sure we call this fun at the start of our script.
 function startGame(){
 
     circleTurn = false;
     cellElements.forEach( cell => {
+        //24. we have to remove classes
+        cell.classList.remove(X_CLASS)
+        cell.classList.remove(CIRCLE_CLASS)
+        cell.removeEventListener('click', handleClick)
         cell.addEventListener("click", handleClick, {once: true}) // means only fire eventListener once
     })
 
     setBoardHoverCLass()
+    //23.
+    winningMessageElement.classList.remove('show')
 }
 
 function handleClick(e){
@@ -51,10 +70,38 @@ function handleClick(e){
     // 5. for placing the mark in the cell, we create a separate function
     placeMark(cell, currentCLass);
     // placemark
+    // 15. here we going to use that winning combinations. 
+    if(checkWin(currentCLass)){
+        // console.log("winner")
+        endGame(false)
+    }// 19. 
+    else if(isDraw()){
+        endGame(true)
+    }else{ // we only want to swap turn if there is no winner
+        swapTurns()
+        setBoardHoverCLass()
+    }
     // check for draw, if none of this happens
     //switching turns
-    swapTurns()
-    setBoardHoverCLass()
+    
+}
+
+// 17. 
+function endGame(draw){
+    if(draw){
+        //20.
+        winningMessageTextElement.innerText = 'Draw!';
+    }else{
+        winningMessageTextElement.innerText = `${circleTurn ? "O's" : "X's"} Wins!`
+    }
+    winningMessageElement.classList.add('show');
+}
+
+// 21.we are get every celland check if it has a class. If every cell has either X/circle class we will return true, becoz it is a draw. This cell elements does not have an every method so we destructure them into Array
+function isDraw(){
+    return [...cellElements].every( cell => {
+        return cell.classList.contains(X_CLASS) || cell.classList.contains(CIRCLE_CLASS)
+    })
 }
 
 // 1. first easy thing is to place the mark, but for that we should know whose it is?
@@ -87,3 +134,17 @@ function setBoardHoverCLass(){
 
 
 }
+
+// 16. here we checks all th winning combination and to see if some of the winning combination have met by the current combinations
+function checkWin(currentCLass){
+    return WINNING_COMBINATIONS.some(combination => {
+        return combination.every(index => {
+            return cellElements[index].classList.contains(currentCLass) // if CurCLass is in all the cell, in the comibinations, then we are winner
+        })
+    }) // this is going to return true,-----
+
+}
+// -------if anyof the value inside of it is true.And this is going to loop over all different the combintions. And for each one of the combinations. We want to check if all of the indexs, if all the values in our cell elemnets have the same class  
+
+//26.
+resetButton.addEventListener('click', startGame);
