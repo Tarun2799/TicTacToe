@@ -1,5 +1,20 @@
 const X_CLASS = "x";
 const CIRCLE_CLASS = "circle";
+
+// 14. let's create an array for winning combinations of an arrays. These are only combinations to win the game.
+const WINNING_COMBINATIONS = [
+    [0,1,2],
+    [3,4,5],
+    [6,7,8],
+    // verticals
+    [0,3,6],
+    [1,4,7],
+    [2,5,8],
+    // diagonals
+    [0,4,8],
+    [2,4,6]
+]
+
 // 3. this way we can easily use this string throughut our application without having to duplicate them all over the [laces.]
 
 const cellElements = document.querySelectorAll('[data-cell]');
