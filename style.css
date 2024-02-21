@@ -1,7 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Anta&display=swap');
+
 *, *::after, *::before{
     box-sizing: border-box;
 }
 
+*{
+    font-family: "Anta", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
 :root{
     --cell-size: 100px;
     --mark-size: calc(var(--cell-size) * (.9));
@@ -9,31 +16,36 @@
 
 body{
     margin: 0;
+    background-color: rgba(201, 86, 195, 0.14);
 }
 nav{
-    padding: 1rem;
+    padding: 2rem 5rem;
     display: flex;
-    justify-content: end;
+    justify-content: space-between;
     align-items: center;
     
 }
 nav>button{
     padding: 0.3rem 0.5rem;
-    margin-right: 2rem;
+    /* margin-right: 2rem; */
     font-size: 1.5rem;
     background-color: #000;
     color: #fff;
-    border-radius: 10px;
+    border-radius: 7px;
 }
 
 nav>button:hover{
     background-color: #fff;
     color: #000;
 }
+/* .heading{
+    margin-left: 5rem;
+    margin-right: 5rem;
+} */
 
 .board{
     width: 100vw;
-    height: 90vh;
+    height: 82svh;
     display: grid;
     /* these both content values center the .cell  */
     justify-content: center; 
@@ -205,4 +217,24 @@ nav>button:hover{
 
 .winning-message.show{
     display: flex;
+}
+
+
+
+@media ( max-width: 400px ){
+    body{
+        min-width: 400px;
+        display: grid;
+        grid-template-columns: auto;
+        
+    }
+    nav{
+        min-width: 400px;
+        justify-content: space-evenly;
+    }
+
+    .board{
+        min-width: 400px;
+        min-height: 500px;
+    }
 }

@@ -18,6 +18,7 @@ const WINNING_COMBINATIONS = [
 // 3. this way we can easily use this string throughut our application without having to duplicate them all over the [laces.]
 
 const cellElements = document.querySelectorAll('[data-cell]');
+console.log(cellElements)
 
 //9. 
 const board = document.getElementById('board');
@@ -148,3 +149,24 @@ function checkWin(currentCLass){
 
 //26.
 resetButton.addEventListener('click', startGame);
+
+
+// console.log(heading);
+
+function changeButtonText(headingButton){
+    if(window.screen.width <=450){
+        headingButton.innerText = "Reset";
+    }
+    else{
+        headingButton.innerText = "Reset Game";
+        
+    }
+}
+
+const heading = document.querySelector(".resetButton");
+
+
+
+window.addEventListener("resize",()=>{
+    changeButtonText(heading);
+})
